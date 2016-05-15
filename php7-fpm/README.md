@@ -12,7 +12,7 @@ Get it:
 
 Run it:
 
-    docker run -d -p 80:80 -p 443:443 --name php7 diegograssato/php7-fpm 
+    docker run -d -p 80:80 -p 443:443 --name php7 diegograssato/php7-fpm
 
 ## Personalize ports and hosts, an the docker-composer.yml
 
@@ -32,10 +32,10 @@ Run it:
             PHP_FPM_DIS_MOD: 'mongodb'
             PHP_FPM_CLI_DIS_MOD: 'xdebug'
             PHP_FPM_PRODUCTION: 'false'
-                        
+
 ## Variables available:
-            
-    PHP_FPM_XDEBUG_PORT: 9000 => PHP Xdebug port 
+
+    PHP_FPM_XDEBUG_PORT: 9000 => PHP Xdebug port
     PHP_FPM_XDEBUG_REMOTE_IP: 172.18.0.1 => PHP Xdebug IP
     PHP_FPM_XDEBUG_ENABLE: 'on' / 'off' => PHP Xdebug Enable
     PHP_FPM_XDEBUG_IDE_KEY: 'PHPSTORM' / 'netbeans' => PHP Xdebug IDE KEY
@@ -46,9 +46,9 @@ Run it:
     PHP_FPM_CLI_DIS_MOD =>Disable module in ALL environment
     PHP_FPM_PRODUCTION => Disable development environment from PHP.ini settings
 
-## Found modules available:
+## Available modules:
 
- 
+
     apcu
     apcu_bc
     bz2
@@ -78,7 +78,7 @@ Run it:
     xdebug
     xmlrpc
     xsl
-    
+
 
 ## Build
 
@@ -87,6 +87,6 @@ Just clone this repo and run:
     docker build -t diegograssato/php7-fpm .
     docker push diegograssato/php7-fpm
 
- 
-  [dockerhubpage]: https://hub.docker.com/r/diegograssato/php7-fpm/ "PHP7-FPM docker hub page"
-  [php7-fpm]:git@github.com:diegograssato/my_containers.git/php7-fpm "PHP7-FPM source code"
+
+  [dockerhubpage]: https://hub.docker.com/r/diegograssato/php7-fpm "PHP7-FPM docker hub page"
+  [php7-fpm]: https://github.com/diegograssato/my_containers/tree/master/php7-fpm "PHP7-FPM source code"
