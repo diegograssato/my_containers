@@ -73,7 +73,7 @@ Run it:
     mongodb
     msgpack
     mysqli
-    opcache 
+    opcache
     pspell
     readline
     recode

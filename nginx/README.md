@@ -1,11 +1,11 @@
-# Nginx docker image
+## Nginx docker image
 
 Here is an unofficial Dockerfile for [nginx][nginx].
 
 You can find several versions of this image in [the dedicated docker hub page][dockerhubpage].  
 It is a pretty light image: ~ 10 MB uncompressed.
 
-## Usage
+### Usage
 
 Get it:
 
@@ -13,9 +13,9 @@ Get it:
 
 Run it:
 
-    docker run -d -p 80:80 -p 443:443 --name web diegograssato/nginx 
+    docker run -d -p 80:80 -p 443:443 --name web diegograssato/nginx
 
-## Personalize ports and hosts, an the docker-composer.yml
+### Personalize ports and hosts, an the docker-composer.yml
 
     nginx:
         image: diegograssato/nginx
@@ -28,12 +28,13 @@ Run it:
             INDEX_FILE: app_dev.php
             PHP_FPM_SOCKET: sf_php7:9011
 
-## Build
+### Build
 
 Just clone this repo and run:
 
     docker build -t diegograssato/nginx .
+    docker push diegograssato/nginx
 
 
-  [dockerhubpage]: https://hub.docker.com/r/diegograssato/mailcatcher/ "Mailcatcher docker hub page"
-  [nginx]:git@github.com:diegograssato/my_containers.git/nginx "Nginx source code"
+  [dockerhubpage]: https://hub.docker.com/r/diegograssato/nginx "Nginx docker hub page"
+  [nginx]: git@github.com:diegograssato/my_containers.git/nginx "Nginx source code"
