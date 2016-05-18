@@ -94,6 +94,26 @@ if [[ ! -z "${PHP_FPM_ENABLE_CLI_MOD}" ]]; then
     enable_module_cli "${PHP_FPM_CLI_DIS_MOD}"
 fi
 
+if [ ! -z ${PHP_FPM_POOL_FILE} ] && [ -s ${PHP_FPM_POOL_FILE} ];then
+
+    echo -e "\nCopy file : ${PHP_FPM_POOL_FILE} to /etc/php/7.0/fpm/pool.d"
+    cp -a ${PHP_FPM_POOL_FILE} /etc/php/7.0/fpm/pool.d/
+
+fi
+
+if [ ! -z ${PHP_FPM_POOL_FOLDER} ] && [ -d ${PHP_FPM_POOL_FILE} ];then
+
+    echo -e "\nCopy all files in folder : ${PHP_FPM_POOL_FOLDER} to /etc/php/7.0/fpm/pool.d"
+    cp -a ${PHP_FPM_POOL_FILE}/* /etc/php/7.0/fpm/pool.d/
+
+fi
+
+if [ ! -z ${PHP_FPM_CONFIG_FILE} ] && [ -d ${PHP_FPM_CONFIG_FILE} ];then
+
+    echo -e "\nCopy file : ${PHP_FPM_CONFIG_FILE} to /etc/php/7.0/fpm/"
+    cp -a ${PHP_FPM_CONFIG_FILE} /etc/php/7.0/fpm/
+
+fi
 ############ Disable modules ############ ############ ############
 # Disable modules
 if [[ ! -z ${PHP_FPM_DIS_MOD} ]]; then
