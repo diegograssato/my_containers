@@ -1,7 +1,7 @@
 ####################################
-# DTuX PHP 7.0 / FPM image         #
+# DTuX PHP 7.0 /  image         #
 ####################################
-FROM diegograssato/php7
+FROM debian:jessie
 
 MAINTAINER Diego Pereira Grassato <diego.grassato@gmail.com>
 
@@ -15,7 +15,7 @@ RUN echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/pol
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive  apt-get -y --no-install-recommends install \
-    php7.0-cli php7.0-fpm  php7.0-curl php7.0-xsl php7.0-xmlrpc php7.0-readline php7.0-json \
+    php7.0-cli php7.0-curl php7.0-xsl php7.0-xmlrpc php7.0-readline php7.0-json \
     php7.0-imagick php7.0-imap php7.0-intl php7.0-msgpack php7.0-pspell php7.0-recode \
     php7.0-bz2 php7.0-enchant php7.0-gd php7.0-geoip php7.0-gmp php7.0-igbinary php7.0-mcrypt \
     php7.0-apcu php7.0-apcu-bc php7.0-redis php7.0-memcached php7.0-opcache php7.0-xdebug \
@@ -32,16 +32,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
     rm -rf /var/lib/apt/lists/* && \
     rm -rf /usr/share/doc/
 
-COPY config/php7/xdebug.ini /etc/php/mods-available/xdebug.ini
-COPY config/php7/opcache.ini /etc/php/mods-available/opcache.ini
-
-# Copy configs and scripts
-COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
-RUN mkdir -p /run/php && mkdir -p /var/www/html && chmod 777 /run/php && chmod 777 /bin/docker-entrypoint.sh
-
 WORKDIR /var/www
 
 # Starter script
-ENTRYPOINT ["/bin/docker-entrypoint.sh"]
-
-CMD ["/usr/sbin/php-fpm7.0", "-F"]
+CMD ["php", "-a"]
