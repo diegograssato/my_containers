@@ -24,7 +24,7 @@ Run it:
             - 443:443
         environment:
             DOCUMENT_ROOT: /var/www/symfony/web
-            DNSDOCK_ALIAS: symfony.dev
+            APP_SERVER_NAME: symfony.dev
             INDEX_FILE: app_dev.php
             PHP_FPM_SOCKET: sf_php7:9011
 

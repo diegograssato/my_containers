@@ -7,17 +7,14 @@ RUN mkdir /tmp/nginx && \
     mkdir -p /etc/nginx/sites-enabled && \
     mkdir -p /etc/nginx/sites-available && \
     mkdir -p /etc/nginx/ssl && \
-    chmod 777 -R /var/lib/nginx && \
-    mkdir -p /var/www/symfony/app/logs && \
-    chmod 777 -R /var/www/symfony/app/logs && \
-    mkdir -p /var/www/symfony/app/cache && \
-    chmod 777 -R /var/www/symfony/app/cache
+    chmod 777 -R /var/lib/nginx
 
 COPY config/*.conf /etc/nginx/sites-available/
 COPY docker-entrypoint.sh /docker-entrypoint.sh
+COPY config/index.* /var/www/
 RUN chmod 777 /docker-entrypoint.sh
 
-WORKDIR /var/www/symfony
+WORKDIR /var/www/
 
 EXPOSE 80
 EXPOSE 443
