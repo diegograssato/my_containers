@@ -1,7 +1,7 @@
 
-IMAGE_DEV="diegograssato/php7-fpm"
-IMAGE_PROD="diegograssato/php7-fpm"
-CONATAINER_DEV="php7-fpm"
+IMAGE_DEV="diegograssato/cli"
+IMAGE_PROD="diegograssato/cli"
+CONATAINER_DEV="cli"
 
 .PHONY: debug \
 	release \
@@ -13,10 +13,8 @@ debug: clean \
 test:
 	docker build -t $(IMAGE_DEV) --rm .
 	docker run --name $(CONATAINER_DEV) --rm \
-						-p 5000:5000 \
-						-p 9000:9000 \
-						-v $(HOME)/open_solutions/web:/var/www \
-						-t $(IMAGE_DEV)
+				-v $(HOME)/open_solutions/web:/var/www \
+				-t $(IMAGE_DEV)
 
 release:
 	docker build -t $(IMAGE_PROD):$(shell cat VERSION) .

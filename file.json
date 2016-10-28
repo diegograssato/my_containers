@@ -1,0 +1,6 @@
+{
+    "vitualhost":[
+                {"name":"dtux","domains":["dtux.org","www.dtux.org"],"docrrot":"dtux/public", "ssl":true},
+                {"name":"dtux2","domains":["dtux2.org"],"docrrot":"dtux2/public", "ssl": false}
+                ]
+}

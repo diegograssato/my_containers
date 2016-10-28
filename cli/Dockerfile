@@ -1,0 +1,75 @@
+####################################
+# DTuX PHP 7.0 /  image         #
+####################################
+FROM diegograssato/php7
+
+MAINTAINER Diego Pereira Grassato <diego.grassato@gmail.com>
+
+# Prevent services autoload (http://jpetazzo.github.io/2013/10/06/policy-rc-d-do-not-start-services-automatically/)
+ENV SUPPORTED_LANGUAGES="en_US|pt_BR"
+RUN DEBIAN_FRONTEND=noninteractive apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install \
+    openssl ssl-cert ca-certificates sudo mysql-client unzip default-jre \
+    vim curl wget locales git openssh-client php7.0-cli php7.0-dev build-essential make && \
+    cat /usr/share/i18n/SUPPORTED | grep -E "$SUPPORTED_LANGUAGES" > /etc/locale.gen && \
+    locale-gen && \
+    # Create a non-root user with access to sudo and the default group set to 'users' (gid = 100)
+    useradd -m -s /bin/bash -g users -u 1000 -G sudo,ssh -p docker docker && \
+    echo 'docker ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
+
+# Configure VIM to PHP development
+RUN mkdir -p /home/docker/.vim/bundle && \
+    git clone https://github.com/StanAngeloff/php.vim.git /home/docker/.vim/bundle/php.vim
+
+# Composer
+RUN \
+    # Composer
+    curl -LsS https://getcomposer.org/composer.phar -o /usr/local/bin/composer && \
+    chmod 777 /usr/local/bin/composer
+
+RUN \
+    # Sonar
+    mkdir -p /home/docker/.sonar && \
+    wget https://sonarsource.bintray.com/Distribution/sonar-scanner-cli/sonar-scanner-2.8.zip -O /home/docker/.sonar/sonar-scanner.zip && \
+    cd /home/docker/.sonar && \
+    unzip sonar-scanner.zip && \
+    mv sonar-scanner-2.8 sonar-scanner  && \
+    chmod 777 -R /home/docker/.sonar/sonar-scanner/bin/* && \
+    rm sonar-scanner.zip
+
+RUN curl -LsS https://symfony.com/installer -o /usr/local/bin/symfony && \
+    chmod 777 /usr/local/bin/symfony
+
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
+    apt-get purge -y && \
+    apt-get clean -y && \
+    apt-get autoclean -y && \
+    apt-get autoremove -y && \
+    rm -rf /usr/share/locale/* && \
+    rm -rf /var/cache/* && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /usr/share/doc/
+
+# Copy configs and scripts
+COPY config/.ssh /home/docker/.ssh
+COPY config/bashrc /home/docker/.bashrc
+COPY config/bash_aliases /home/docker/.bash_aliases
+COPY config/inputrc /home/docker/.inputrc
+
+
+# Copy configs and scripts
+COPY docker-entrypoint.sh /bin/
+RUN chmod 777 /bin/docker-entrypoint.sh
+
+
+# All further RUN commands will run as the "docker" user
+USER docker
+# Fix permissions after COPY
+RUN sudo chown -R docker:users /home/docker
+
+WORKDIR /var/www
+
+ENTRYPOINT ["/bin/docker-entrypoint.sh"]
+# Starter script
+CMD ["php", "-a"]

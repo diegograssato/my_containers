@@ -2,7 +2,7 @@ FROM alpine:3.3
 
 MAINTAINER Diego Perera Grassato <diego.grassato@gmail.com>
 
-RUN apk add --update nginx openssl bash && rm -rf /var/cache/apk/*
+RUN apk add --update nginx openssl bash jq && rm -rf /var/cache/apk/*
 RUN mkdir /tmp/nginx && \
     mkdir -p /etc/nginx/sites-enabled && \
     mkdir -p /etc/nginx/sites-available && \

@@ -13,7 +13,7 @@ Get it:
 Run it:
 
     docker run --name php7 diegograssato/php7
-
+ 
 
 ## Found modules available:
 
@@ -43,8 +43,6 @@ Run it:
     redis
     sqlite3
     xdebug
-    xml
-    zip 
     xmlrpc
     xsl
     pdo_dblib

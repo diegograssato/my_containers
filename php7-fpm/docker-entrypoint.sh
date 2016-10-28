@@ -17,10 +17,10 @@ function disable_module() {
             local MODULE_NAME="20-${MODULE}.ini"
             local MODULE_PATH="${MODULES_ENABLED}/${MODULE_NAME}"
             if [[ -L "${MODULE_PATH}" ]] ; then
-                    echo -e "\nDisabled module ${MODULE_PATH}"
+                    echo -e "=> Disabled module: ${MODULE_PATH}"
                     unlink ${MODULE_PATH}
                 else
-                    echo -e "\n=>Module not found  ${MODULE_PATH}\n"
+                    echo -e "=> Module not found:  ${MODULE_PATH}"
             fi
 
         done
@@ -53,13 +53,25 @@ function enable_module() {
 
         for MODULE in ${MODULES}; do
 
-            local MODULES_AVAILABLE="/etc/php/mods-available/${MODULE}.ini"
+            local MODULES_AVAILABLE="/etc/php/7.0/mods-available/${MODULE}.ini"
             local MODULES_ENABLED="/etc/php/7.0/${SAPI_NAME}/conf.d"
             local MODULE_NAME="20-${MODULE}.ini"
             local MODULE_PATH="${MODULES_ENABLED}/${MODULE_NAME}"
             if [[ -s "${MODULES_AVAILABLE}" ]] && [[ ! -L "${MODULE_PATH}" ]]; then
-                    echo -e "\nEnabled module ${MODULES_AVAILABLE} ${MODULE_PATH}"
+                    echo -e "=> Enabled module ${MODULE_PATH}"
                     ln -s ${MODULES_AVAILABLE} ${MODULE_PATH}
+            else
+
+                if [[ -L "${MODULE_PATH}" ]]; then
+
+                    echo -e "=> Module enabled:  ${MODULE_PATH}"
+
+                else
+
+                    echo -e "=> Module not found:  ${MODULES_AVAILABLE}"
+
+                fi
+
             fi
 
         done
@@ -84,52 +96,52 @@ function enable_module_cli(){
 
 # Enable modules
 if [[ ! -z "${PHP_FPM_ENABLE_MOD}" ]]; then
-    echo -e "\nEnable modules all: ${PHP_FPM_ENABLE_MOD}"
+    echo -e "\n#### Enable modules all: ${PHP_FPM_ENABLE_MOD}"
     enable_module_all "${PHP_FPM_ENABLE_MOD}"
 fi
 
 # Enable cli modules
 if [[ ! -z "${PHP_FPM_ENABLE_CLI_MOD}" ]]; then
-    echo -e "\nEnable modules cli: ${PHP_FPM_ENABLE_CLI_MOD}"
+    echo -e "\n#### Enable modules cli: ${PHP_FPM_ENABLE_CLI_MOD}"
     enable_module_cli "${PHP_FPM_CLI_DIS_MOD}"
 fi
 
 if [ ! -z ${PHP_FPM_POOL_FILE} ] && [ -s ${PHP_FPM_POOL_FILE} ];then
 
-    echo -e "\nCopy file : ${PHP_FPM_POOL_FILE} to /etc/php/7.0/fpm/pool.d"
+    echo -e "\n#### Copy file : ${PHP_FPM_POOL_FILE} to /etc/php/7.0/fpm/pool.d"
     cp -a ${PHP_FPM_POOL_FILE} /etc/php/7.0/fpm/pool.d/
 
 fi
 
 if [ ! -z ${PHP_FPM_POOL_FOLDER} ] && [ -d ${PHP_FPM_POOL_FILE} ];then
 
-    echo -e "\nCopy all files in folder : ${PHP_FPM_POOL_FOLDER} to /etc/php/7.0/fpm/pool.d"
+    echo -e "\n#### Copy all files in folder : ${PHP_FPM_POOL_FOLDER} to /etc/php/7.0/fpm/pool.d"
     cp -a ${PHP_FPM_POOL_FILE}/* /etc/php/7.0/fpm/pool.d/
 
 fi
 
 if [ ! -z ${PHP_FPM_CONFIG_FILE} ] && [ -d ${PHP_FPM_CONFIG_FILE} ];then
 
-    echo -e "\nCopy file : ${PHP_FPM_CONFIG_FILE} to /etc/php/7.0/fpm/"
+    echo -e "\n#### Copy file : ${PHP_FPM_CONFIG_FILE} to /etc/php/7.0/fpm/"
     cp -a ${PHP_FPM_CONFIG_FILE} /etc/php/7.0/fpm/
 
 fi
 ############ Disable modules ############ ############ ############
 # Disable modules
 if [[ ! -z ${PHP_FPM_DIS_MOD} ]]; then
-    echo -e "\nDisable modules all: ${PHP_FPM_CLI_DIS_MOD}"
+    echo -e "\n#### Disable modules all: ${PHP_FPM_DIS_MOD}"
     disable_module_all "${PHP_FPM_DIS_MOD}"
 fi
 
 # Disable cli modules
 if [[ ! -z ${PHP_FPM_CLI_DIS_MOD} ]]; then
-    echo -e "\nDisable modules cli: ${PHP_FPM_CLI_DIS_MOD}"
+    echo -e "\n#### Disable modules cli: ${PHP_FPM_CLI_DIS_MOD}"
     disable_module_cli "${PHP_FPM_CLI_DIS_MOD}"
 fi
 
 ############ ############ ############ ############
 
-export XDEBUG_INI="/etc/php/mods-available/xdebug.ini"
+export XDEBUG_INI="/etc/php/7.0/mods-available/xdebug.ini"
 
 if [[ -s ${XDEBUG_INI} ]]; then
 
@@ -151,7 +163,7 @@ if [[ -s ${XDEBUG_INI} ]]; then
     fi
 
 ############ XDEBUG CONFIGURATIONS ############ ############ ############
-    echo -e "\nConfiguring php-fpm xdebug to ${PHP_FPM_XDEBUG_REMOTE_IP}:${PHP_FPM_XDEBUG_PORT}, state ${PHP_FPM_XDEBUG_ENABLE}"
+    echo -e "\n#### Configuring php-fpm xdebug to ${PHP_FPM_XDEBUG_REMOTE_IP}:${PHP_FPM_XDEBUG_PORT}, state ${PHP_FPM_XDEBUG_ENABLE}"
 
     ${SED} -i "s@<PHP_FPM_XDEBUG_PORT>@${PHP_FPM_XDEBUG_PORT}@" ${XDEBUG_INI}
     ${SED} -i "s@<PHP_FPM_XDEBUG_REMOTE_IP>@${PHP_FPM_XDEBUG_REMOTE_IP}@" ${XDEBUG_INI}
@@ -162,7 +174,7 @@ if [[ -s ${XDEBUG_INI} ]]; then
     ${SED} -i '/xdebug\.remote_log/d' ${XDEBUG_INI}
     if [[ ! -z ${PHP_FPM_XDEBUG_REMOTE_LOG_ENABLE} ]] && [[ ${PHP_FPM_XDEBUG_REMOTE_LOG_ENABLE} == 'true' ]]; then
 
-        echo -e "\nConfiguring php-fpm xdebug to ${PHP_FPM_XDEBUG_REMOTE_IP}:${PHP_FPM_XDEBUG_PORT}, state ${PHP_FPM_XDEBUG_ENABLE}"
+        echo -e "#### Configuring php-fpm xdebug to ${PHP_FPM_XDEBUG_REMOTE_IP}:${PHP_FPM_XDEBUG_PORT}, state ${PHP_FPM_XDEBUG_ENABLE}"
         echo "xdebug.remote_log=/tmp/xdebug.log" | tee -a ${XDEBUG_INI}
 
     fi
@@ -171,14 +183,14 @@ fi
 
 if [ ! "${PHP_FPM_PRODUCTION}" == "true" ] ; then
 
-    echo -e "\nConfiguring php-fpm to development"
+    echo -e "#### Configuring php-fpm to development"
 
     # PHP-FPM development settings
     ## /etc/php/7.0/fpm/php.ini
-    ${SED} -i '/memory_limit = /c memory_limit = 256M' /etc/php/7.0/fpm/php.ini
+    ${SED} -i '/memory_limit = /c memory_limit = 1024M' /etc/php/7.0/fpm/php.ini
     ${SED} -i '/max_execution_time = /c max_execution_time = 300' /etc/php/7.0/fpm/php.ini
     ${SED} -i '/upload_max_filesize = /c upload_max_filesize = 500M' /etc/php/7.0/fpm/php.ini
-    ${SED} -i '/post_max_size = /c post_max_size = 500M' /etc/php/7.0/fpm/php.ini
+    ${SED} -i '/post_max_size = /c post_max_size = 800M' /etc/php/7.0/fpm/php.ini
     ${SED} -i '/error_log = /c error_log = \/dev\/stdout' /etc/php/7.0/fpm/php.ini
     ${SED} -i '/;always_populate_raw_post_data/c always_populate_raw_post_data = -1' /etc/php/7.0/fpm/php.ini
     ${SED} -i '/;sendmail_path/c sendmail_path = /bin/true' /etc/php/7.0/fpm/php.ini
@@ -186,7 +198,7 @@ if [ ! "${PHP_FPM_PRODUCTION}" == "true" ] ; then
     #${SED} -i '/;daemonize = /c daemonize = no' /etc/php/7.0/fpm/php-fpm.conf
     ${SED} -i '/error_log = /c error_log = \/dev\/stdout' /etc/php/7.0/fpm/php-fpm.conf
     # PHP CLI settings
-    ${SED} -i '/memory_limit = /c memory_limit = 512M' /etc/php/7.0/cli/php.ini
+    ${SED} -i '/memory_limit = /c memory_limit = -1' /etc/php/7.0/cli/php.ini
     ${SED} -i '/max_execution_time = /c max_execution_time = 600' /etc/php/7.0/cli/php.ini
     ${SED} -i '/error_log = php_errors.log/c error_log = \/dev\/stdout' /etc/php/7.0/cli/php.ini
     ${SED} -i '/;sendmail_path/c sendmail_path = /bin/true' /etc/php/7.0/cli/php.ini
