@@ -2,13 +2,12 @@
 
 UPSTREAM="/etc/nginx/conf.d/upstream.conf"
 NGINX_CONF="/etc/nginx/nginx.conf"
-NGINX_CONF_AVAILABLE="/etc/nginx/sites-available/nginx.conf"
+NGINX_CONF_AVAILABLE="/etc/nginx/sites-available/nginx.conf" 
 APP_AVAILABLE="/etc/nginx/sites-available/application.conf"
 APP_DEFAULT="/etc/nginx/sites-available/default.conf"
 TEMPLATE_SYMFONY="/etc/nginx/sites-available/symfony.conf"
 APP_CUSTOM="/etc/nginx/sites-available/custom.conf"
 SITES_ENABLED="/etc/nginx/sites-enabled"
-SITES_AVAILABLE="/etc/nginx/sites-available"
 SITES_ENABLEDx="/tmp"
 
 SED=$(which sed)
@@ -78,20 +77,12 @@ function site_configuration() {
 
         SITE=$(jq -r ".vhost[$x] .name" /tmp/vhost.json)
         DOCUMENT_ROOT=$(jq -r ".vhost[$x] .docroot" /tmp/vhost.json)
-        MODEL=$(jq -r ".vhost[$x] .model" /tmp/vhost.json)
-        if [ ${MODEL} == "null" ]; then
-
-            APP_AVAILABLE="${SITES_AVAILABLE}/default.conf"
-
-        else
-            APP_AVAILABLE="${SITES_AVAILABLE}/${MODEL}.conf"
-        fi
 
         DOCUMENT_ROOT="${NGINX_DOCUMENT_ROOT}${DOCUMENT_ROOT}"
 
         SITE_DOMAINS=""
         DOMAINS_SIZE=$(jq -c ".vhost[$x] .domains" /tmp/vhost.json  | jq length)
-        APP_SSL=$(jq -r ".vhost[$x] .forcessl" /tmp/vhost.json)
+        APP_SSL=$(jq -r ".vhost[$x] .ssl" /tmp/vhost.json)
         for ((y=0; y < ${DOMAINS_SIZE}; y++)) ; do
 
             APP_DOMAINS=$(jq -r ".vhost[$x] .domains[$y]" /tmp/vhost.json)

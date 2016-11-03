@@ -1,6 +1,6 @@
-# PHP7 docker image
+# PHP 5.6 docker image
 
-Here is an unofficial Dockerfile for [php7][php7].
+Here is an unofficial Dockerfile for [php5.6][php5.6].
 
 You can find several versions of this image in [the dedicated docker hub page][dockerhubpage].   
 
@@ -8,19 +8,16 @@ You can find several versions of this image in [the dedicated docker hub page][d
 
 Get it:
 
-    docker pull diegograssato/php7
+    docker pull diegograssato/php5.6
 
 Run it:
 
-    docker run --name php7 diegograssato/php7
- 
+    docker run --name php5.6 diegograssato/php5.6
+
 
 ## Found modules available:
 
 
-    apcu
-    apcu_bc
-    bz2
     curl
     enchant
     gd
@@ -33,22 +30,24 @@ Run it:
     json
     mcrypt
     memcached
-    mongodb
+    mongo
     msgpack
     mysqli
-    opcache
     pspell
     readline
     recode
     redis
-    sqlite3
+    sqlite
+    xcache
     xdebug
     xmlrpc
     xsl
+    zip
     pdo_dblib
     pdo_mysql
     pdo_pgsql
     pdo_sqlite
+    ldap
     sysbase
 
 
@@ -56,9 +55,9 @@ Run it:
 
 Just clone this repo and run:
 
-    docker build -t diegograssato/php7 .
-    docker push diegograssato/php7
+    docker build -t diegograssato/php5.6 .
+    docker push diegograssato/php5.6
 
 
-  [dockerhubpage]: https://hub.docker.com/r/diegograssato/php7/ "PHP7 docker hub page"
-  [php7]:git@github.com:diegograssato/my_containers.git/php7 "PHP7 source code"
+  [dockerhubpage]: https://hub.docker.com/r/diegograssato/php5.6/ "PHP 5.6 docker hub page"
+  [php5.6]:git@github.com:diegograssato/my_containers.git/php5.6 "PHP 5.6 source code"

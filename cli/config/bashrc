@@ -164,5 +164,10 @@ function show_colored_git_branch_in_prompt() {
 
 }
 
+if [ -x /usr/local/bin/drupal ]; then
+
+  source "$HOME/.console/console.rc" 2>/dev/null
+
+fi
 
 show_colored_git_branch_in_prompt

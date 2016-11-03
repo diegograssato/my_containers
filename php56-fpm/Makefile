@@ -1,7 +1,7 @@
 
-IMAGE_DEV="diegograssato/cli"
-IMAGE_PROD="diegograssato/cli"
-CONATAINER_DEV="cli"
+IMAGE_DEV="diegograssato/php5.6-fpm"
+IMAGE_PROD="diegograssato/php5.6-fpm"
+CONATAINER_DEV="php5.6-fpm"
 
 .PHONY: debug \
 	release \
@@ -13,14 +13,13 @@ debug: clean \
 test:
 	docker build -t $(IMAGE_DEV) --rm .
 	docker run --name $(CONATAINER_DEV) --rm \
-				--network="config_default" \
-				-e CLI_SYMFONY_DEV="FaLsE" \
-				-e CLI_DRUSH="false" \
-				-e CLI_DRUPAL_CLI="false" \
-				-e CLI_CS="false" \
-				-e CLI_SONAR="true" \
-				-v $(HOME)/open_solutions/web:/var/www \
-				-t $(IMAGE_DEV)
+						-p 5001:5000 \
+						-p 9001:9000 \
+						--network="config_default" \
+						-e PHP_FPM_ENABLE_MOD='xdebug' \
+						-e PHP_FPM_DIS_MOD='mongo memcached' \
+						-v $(HOME)/open_solutions/web:/var/www \
+						-t $(IMAGE_DEV)
 
 release:
 	docker build -t $(IMAGE_PROD):$(shell cat VERSION) .
