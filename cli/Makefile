@@ -17,8 +17,8 @@ test:
 				-e CLI_SYMFONY_DEV="FaLsE" \
 				-e CLI_DRUSH="false" \
 				-e CLI_DRUPAL_CLI="false" \
-				-e CLI_CS="false" \
-				-e CLI_SONAR="true" \
+				-e CLI_CS="true" \
+				-e CLI_SONAR="false" \
 				-v $(HOME)/open_solutions/web:/var/www \
 				-t $(IMAGE_DEV)
 

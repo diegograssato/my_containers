@@ -1,7 +1,7 @@
 ####################################
 # DTuX PHP 7.0 /  image         #
 ####################################
-FROM diegograssato/php7
+FROM diegograssato/php56
 
 MAINTAINER Diego Pereira Grassato <diego.grassato@gmail.com>
 
@@ -10,7 +10,7 @@ ENV SUPPORTED_LANGUAGES="en_US|pt_BR"
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install \
     openssl ssl-cert ca-certificates sudo mysql-client unzip default-jre \
-    vim curl wget locales git openssh-client php7.0-cli php7.0-dev build-essential make && \
+    vim curl wget locales git openssh-client php5-cli php5-dev build-essential make && \
     cat /usr/share/i18n/SUPPORTED | grep -E "$SUPPORTED_LANGUAGES" > /etc/locale.gen && \
     locale-gen && \
     # Create a non-root user with access to sudo and the default group set to 'users' (gid = 100)
@@ -18,8 +18,10 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update -qq && \
     echo 'docker ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 # Ensure UTF-8
-ENV LANG       en_US.UTF-8
-ENV LC_ALL     en_US.UTF-8
+ENV LC_ALL          C.UTF-8
+ENV LANG            en_US.UTF-8
+ENV LANGUAGE        en_US.UTF-8
+
 # Configure VIM to PHP development
 RUN mkdir -p /home/docker/.vim/bundle && \
     git clone https://github.com/StanAngeloff/php.vim.git /home/docker/.vim/bundle/php.vim

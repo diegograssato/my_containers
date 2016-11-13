@@ -17,7 +17,7 @@ test:
 						-p 9001:9000 \
 						--network="config_default" \
 						-e PHP_FPM_ENABLE_MOD='xdebug' \
-						-e PHP_FPM_DIS_MOD='mongo memcached' \
+						-e PHP_FPM_DIS_MOD='memcached' \
 						-v $(HOME)/open_solutions/web:/var/www \
 						-t $(IMAGE_DEV)
 

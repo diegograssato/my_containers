@@ -27,7 +27,6 @@ test_upstream:
 	docker run --name $(CONATAINER_DEV) --rm \
 							-p 80:80 -p 443:443 \
 							--link="php5.6-fpm" \
-							--link="php7-fpm" \
 							--network="config_default" \
 							-v $(HOME)/open_solutions/web:/var/www \
 							-e NGINX_DOCUMENT_ROOT="/var/www/" \
@@ -35,9 +34,10 @@ test_upstream:
 															 {'name':'doito','domains':['dtux.drupal.com'],'docroot':'drupal-8', 'forcessl': 'true'}, \
 															 {'name':'api','domains':['api','api.dev'],'docroot':'apigility/public', 'forcessl': 'false'}, \
 														 	 {'name':'zf3-intermediario','domains':['zf3-intermediario'],'docroot':'zf3-intermediario/public', 'forcessl': 'true'}, \
+															 {'name':'dashboard','domains':['d-roi'],'docroot':'dashaboard-roi/public', 'forcessl': 'false'}, \
 															 {'name':'mcneil','domains':['mcneil-us.local'],'docroot':'V2.7.10-P3/docroot', 'forcessl': 'false','model':'drupal7'}, \
 															 {'name':'laravel','domains':['laravel.dev','laravel'],'docroot':'laravel/public', 'forcessl': 'false'}" \
-							-e PHP_FPM_SOCKET="php7-fpm:5000" \
+							-e PHP_FPM_SOCKET="php5.6-fpm:5000" \
 		          -e NGINX_WORKER_PROCESSES=4 \
 		          -e NGINX_CONNECTIONS=20480 \
 							-t $(IMAGE_DEV)

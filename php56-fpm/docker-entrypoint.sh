@@ -198,6 +198,8 @@ if [ ! "${PHP_FPM_PRODUCTION}" == "true" ] ; then
     ## ${PHP_BASE}/fpm/php-fpm.conf
     #${SED} -i '/;daemonize = /c daemonize = no' ${PHP_BASE}/fpm/php-fpm.conf
     ${SED} -i '/error_log = /c error_log = \/dev\/stdout' ${PHP_BASE}/fpm/php-fpm.conf
+    ${SED} -i '/display_errors = /c error_log = On' ${PHP_BASE}/fpm/php-fpm.conf
+    ${SED} -i '/display_startup_errors = /c display_startup_errors = On' ${PHP_BASE}/fpm/php-fpm.conf
     # PHP CLI settings
     ${SED} -i '/memory_limit = /c memory_limit = -1' ${PHP_BASE}/cli/php.ini
     ${SED} -i '/max_execution_time = /c max_execution_time = 800' ${PHP_BASE}/cli/php.ini

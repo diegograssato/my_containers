@@ -1,32 +1,34 @@
-# mini-elasticsearch
+# Local DynamoDB
+Here is an unofficial Dockerfile for [dynamodb][dynamodb].
 
-[Elasticsearch](http://www.elasticsearch.org/) service container.
+You can find several versions of this image in [the dedicated docker hub page][dockerhubpage].  
+Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. DynamoDB lets you offload the administrative burdens of operating and scaling a distributed database, so that you don't have to worry about hardware provisioning, setup and configuration, replication, software patching, or cluster scaling.
 
 ## Usage
 
-To run this container and bind port `9200`:
+Get it:
 
-```
-docker run -d -p 9200:9200 diegograssato/mini-elasticsearch
-```
+    docker pull diegograssato/dynamodb
 
-Note that port `9300` (tcp) is also exposed, but is not required unless you
-want to build a multi-node cluster using this container :wink:
+Run it:
 
-You can now check the logs:
+    docker run -d -p 8000:8000 --name dynamodb diegograssato/dynamodb
 
-```
-docker logs <CONTAINER_ID>
-```
+Then you can configure database using web interface: http://\<your docker host\>:8000/.
 
-### Data and volumes
+## Personalize ports and hosts, an the docker-composer.yml
 
-This container exposes `/var/lib/elasticsearch` as bind mount volume. You can
-mount it when starting the container:
+    dynamodb:
+        image: diegograssato/dynamodb
+        ports:
+            - 8000:8000
 
-```
-docker run -v /mydata/elasticsearch:/var/lib/elasticsearch -d -p 9200:9200 diegograssato/mini-elasticsearch
-```
+## Build
 
-We recommend you mount the volume to avoid loosing data between updates to this
-container.
+Just clone this repo and run:
+
+    docker build -t diegograssato/dynamodb .
+
+
+  [dynamodb]: http://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html "What Is Amazon DynamoDB?"
+  [dockerhubpage]: https://hub.docker.com/r/diegograssato/dynamodb/ "DynamoDB docker hub page"

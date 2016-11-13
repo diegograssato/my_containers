@@ -23,7 +23,7 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get update -qq && \
     php5-enchant php5-gd php5-geoip php5-gmp php5-igbinary php5-mcrypt \
     php5-redis php5-memcached php5-cli php5-lasso php5-ssh2 \
     php5-pgsql php5-sybase php5-sqlite php5-mongo php5-mysql php5-ldap \
-    php-pclzip php-mdb2-driver-mysql php5-msgpack php5-gnupg && \
+    php-pclzip php-mdb2-driver-mysql php5-msgpack php5-gnupg php-pear mcrypt libsasl2-dev  && \
     localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
 
 RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \

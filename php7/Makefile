@@ -16,7 +16,7 @@ test:
 
 release:
 	docker build -t $(IMAGE_PROD):$(shell cat VERSION) .
-	docker push $(IMAGE_PROD):$(shell cat VERSION)
+#	docker push $(IMAGE_PROD):$(shell cat VERSION)
 
 clean:
 	docker stop $(CONATAINER_DEV) || true
