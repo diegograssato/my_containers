@@ -44,7 +44,7 @@ Run it:
     sqlite3
     xdebug
     xml
-    zip 
+    zip
     xmlrpc
     xsl
     pdo_dblib
@@ -52,7 +52,8 @@ Run it:
     pdo_pgsql
     pdo_sqlite
     sysbase
-
+    sqlsrv
+    pdo_sqlsrv
 
 ## Build
 

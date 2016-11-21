@@ -19,7 +19,8 @@ RUN git clone https://github.com/Yaoguais/phpng-xhprof.git /tmp/php-src/ext/xhpr
 COPY config/php/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
 COPY config/php/xhprof.ini /etc/php/7.0/mods-available/xhprof.ini
 COPY config/php/opcache.ini /etc/php/7.0/mods-available/opcache.ini
-COPY config/php/www.conf /etc/php/7.0/fpm/pool.d/www.conf 
+COPY config/php/sqlsrv.ini /etc/php/7.0/mods-available/sqlsrv.ini
+COPY config/php/www.conf /etc/php/7.0/fpm/pool.d/www.conf
 RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
     apt-get remove git build-essential make  --purge -y && \
     apt-get purge -y && \
