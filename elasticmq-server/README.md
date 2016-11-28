@@ -3,7 +3,7 @@ Here is an unofficial Dockerfile for [elasticmq-server][elasticmq-server].
 
 Amazon Simple Queue Service (Amazon SQS) local.
 
-[![](https://images.microbadger.com/badges/version/diegograssato/elasticmq-server.svg)](https://microbadger.com/images/diegograssato/elasticmq-server "Get your own version badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/diegograssato/elasticmq-server.svg)](https://microbadger.com/images/diegograssato/elasticmq-server "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/diegograssato/elasticmq-server.svg)](https://microbadger.com/images/diegograssato/elasticmq-server "Get your own image badge on microbadger.com")
 
 ## Usage
 

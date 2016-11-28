@@ -2,10 +2,12 @@
 Here is an unofficial Dockerfile for [mini-dynamodb][mini-dynamodb].
 
 
-[![](https://badge.imagelayers.io/diegograssato/mini-dynamodb:latest.svg)](https://imagelayers.io/?images=diegograssato/mini-dynamodb:latest 'Get your own badge on imagelayers.io')
+[![](https://images.microbadger.com/badges/version/diegograssato/mini-dynamodb.svg)](https://microbadger.com/images/diegograssato/mini-dynamodb "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/diegograssato/mini-dynamodb.svg)](https://microbadger.com/images/diegograssato/mini-dynamodb "Get your own image badge on microbadger.com")
 
 You can find several versions of this image in [the dedicated docker hub page][dockerhubpage].  
 Amazon DynamoDB is a fully managed NoSQL database service that provides fast and predictable performance with seamless scalability. DynamoDB lets you offload the administrative burdens of operating and scaling a distributed database, so that you don't have to worry about hardware provisioning, setup and configuration, replication, software patching, or cluster scaling.
+
+
 
 ## Usage
 
