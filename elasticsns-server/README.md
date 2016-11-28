@@ -31,4 +31,4 @@ Just clone this repo and run:
     docker build -t diegograssato/elasticsns-server .
 
 
-  [dockerhubpage]: https://hub.docker.com/r/diegograssato/elasticsns-server/ " Amazon Simple Notification Service (SNS) docker hub page"
+[dockerhubpage]: https://hub.docker.com/r/diegograssato/elasticsns-server/ " Amazon Simple Notification Service (SNS) docker hub page"

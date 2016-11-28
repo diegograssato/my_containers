@@ -31,4 +31,4 @@ Just clone this repo and run:
     docker build -t diegograssato/elasticmq-server .
 
 
-  [dockerhubpage]: https://hub.docker.com/r/diegograssato/elasticmq-server/ "Amazon Simple Queue Service (Amazon SQS) docker hub page"
+[dockerhubpage]: https://hub.docker.com/r/diegograssato/elasticmq-server/ "Amazon Simple Queue Service (Amazon SQS) docker hub page"

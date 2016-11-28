@@ -12,11 +12,11 @@ IMAGE_DEV	/home/diego/Documentos/my_containers/elasticmq-server/Makefile	/^IMAGE
 IMAGE_PROD	/home/diego/Documentos/my_containers/elasticmq-server/Makefile	/^IMAGE_PROD="diegograssato\/elasticmq-server"$/;"	macro	line:3
 CONATAINER_DEV	/home/diego/Documentos/my_containers/elasticmq-server/Makefile	/^CONATAINER_DEV="sqs-local"$/;"	macro	line:4
 ORT	/home/diego/Documentos/my_containers/elasticmq-server/Makefile	/^						-e PORT='9324' \\$/;"	macro	line:15
-Local ElasticSNS	/home/diego/Documentos/my_containers/elasticsns-server/README.md	/^# Local ElasticSNS$/;"	function	line:1
-Usage	/home/diego/Documentos/my_containers/elasticsns-server/README.md	/^## Usage$/;"	function	line:8
-Personalize ports and hosts, an the docker-composer.yml	/home/diego/Documentos/my_containers/elasticsns-server/README.md	/^## Personalize ports and hosts, an the docker-composer.yml$/;"	function	line:20
-Build	/home/diego/Documentos/my_containers/elasticsns-server/README.md	/^## Build$/;"	function	line:27
 Local Elasticmq	/home/diego/Documentos/my_containers/elasticmq-server/README.md	/^# Local Elasticmq$/;"	function	line:1
 Usage	/home/diego/Documentos/my_containers/elasticmq-server/README.md	/^## Usage$/;"	function	line:8
 Personalize ports and hosts, an the docker-composer.yml	/home/diego/Documentos/my_containers/elasticmq-server/README.md	/^## Personalize ports and hosts, an the docker-composer.yml$/;"	function	line:20
 Build	/home/diego/Documentos/my_containers/elasticmq-server/README.md	/^## Build$/;"	function	line:27
+Local ElasticSNS	/home/diego/Documentos/my_containers/elasticsns-server/README.md	/^# Local ElasticSNS$/;"	function	line:1
+Usage	/home/diego/Documentos/my_containers/elasticsns-server/README.md	/^## Usage$/;"	function	line:8
+Personalize ports and hosts, an the docker-composer.yml	/home/diego/Documentos/my_containers/elasticsns-server/README.md	/^## Personalize ports and hosts, an the docker-composer.yml$/;"	function	line:20
+Build	/home/diego/Documentos/my_containers/elasticsns-server/README.md	/^## Build$/;"	function	line:27
