@@ -1,12 +1,8 @@
 #!/bin/sh
 
 echo -e "\n===================================================================="
-echo " Starting ElasticMQ server"
+echo " Starting ElasticSNS server: http://${HTTP_INTERFACE}:${HTTP_PORT}     "
 echo "===================================================================="
 
 # Execute passed CMD arguments
 exec "$@"
-#
-# exec java -Djava.net.preferIPv4Stack=true \
-#     -Dconfig.file=/etc/elasticmq/elasticmq.conf \
-#     -jar /usr/local/src/elasticmq-server/elasticmq-server.jar

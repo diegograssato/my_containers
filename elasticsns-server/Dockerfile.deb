@@ -1,0 +1,45 @@
+FROM java:8-jre
+
+MAINTAINER Diego Perera Grassato <diego.grassato@gmail.com>
+
+ENV AWS_DEFAULT_REGION=eu-west-1 \
+	AWS_ACCESS_KEY_ID=foo \
+	AWS_SECRET_ACCESS_KEY=bar \
+	DB_PATH="/etc/sns/db.json" \
+	HTTP_INTERFACE="0.0.0.0" \
+	HTTP_PORT="9911" \
+	VERSION=0.1.3
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y curl awscli locales  && \
+    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+RUN mkdir -p /etc/sns && \
+  /usr/bin/curl -LsS https://github.com/s12v/sns/releases/download/$VERSION/sns-$VERSION.jar -o /bin/sns.jar  && \
+  apt-get update && \
+  apt-get upgrade -y && \
+  apt-get remove wget curl gcc-4.8-base --purge -y && \
+  apt-get purge -y && \
+  apt-get clean -y && \
+  apt-get autoclean -y && \
+  apt-get autoremove -y && \
+  rm -rf /usr/share/locale/* && \
+  rm -rf /var/cache/* && \
+  rm -rf /var/lib/apt/lists/* && \
+  rm -rf /usr/share/doc/
+
+# Ensure UTF-8
+ENV LC_ALL          C.UTF-8
+ENV LANG            en_US.UTF-8
+ENV LANGUAGE        en_US.UTF-8
+
+COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
+COPY db.json /etc/sns/db.json
+RUN chmod 777 /bin/docker-entrypoint.sh
+VOLUME ["/etc/sns"]
+# Default port for SNS Local
+EXPOSE 9911
+
+# Starter script
+ENTRYPOINT ["/bin/docker-entrypoint.sh"]
+CMD ["/usr/bin/java", "-jar", "/bin/sns.jar"]
