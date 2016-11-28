@@ -1,7 +1,7 @@
 
-IMAGE_DEV="diegograssato/php7"
-IMAGE_PROD="diegograssato/php7"
-CONATAINER_DEV="php7"
+IMAGE_DEV="diegograssato/sqs-local"
+IMAGE_PROD="diegograssato/elasticmq-server"
+CONATAINER_DEV="sqs-local"
 
 .PHONY: debug \
 	release \
@@ -9,10 +9,11 @@ CONATAINER_DEV="php7"
 
 debug: clean \
 	test
-
 test:
 	docker build -t $(IMAGE_DEV) --rm .
-	docker run --name $(CONATAINER_DEV) --rm -t $(IMAGE_DEV)
+	docker run --name $(CONATAINER_DEV) --rm -p 9324:9324 \
+						-e PORT='9324' \
+						-t $(IMAGE_DEV)
 
 release:
 	docker build -t $(IMAGE_PROD):$(shell cat VERSION) .

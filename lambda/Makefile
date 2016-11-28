@@ -1,7 +1,7 @@
 
-IMAGE_DEV="diegograssato/php7"
-IMAGE_PROD="diegograssato/php7"
-CONATAINER_DEV="php7"
+IMAGE_DEV="diegograssato/lambdab"
+IMAGE_PROD="diegograssato/lambdab"
+CONATAINER_DEV="lambdab"
 
 .PHONY: debug \
 	release \
@@ -9,10 +9,10 @@ CONATAINER_DEV="php7"
 
 debug: clean \
 	test
-
 test:
 	docker build -t $(IMAGE_DEV) --rm .
-	docker run --name $(CONATAINER_DEV) --rm -t $(IMAGE_DEV)
+	docker run --name $(CONATAINER_DEV) --rm  \
+						-t $(IMAGE_DEV)
 
 release:
 	docker build -t $(IMAGE_PROD):$(shell cat VERSION) .
