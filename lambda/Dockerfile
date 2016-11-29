@@ -1,4 +1,4 @@
-FROM lambci/lambda
+FROM lambci/lambda:build
 
 ENV AWS_LAMBDA_FUNCTION_NAME=docker-build \
     AWS_LAMBDA_FUNCTION_VERSION=2 \
@@ -6,7 +6,5 @@ ENV AWS_LAMBDA_FUNCTION_NAME=docker-build \
     AWS_LAMBDA_FUNCTION_TIMEOUT=60 \
     AWS_REGION=us-east-1
 
-# # If we want to match permissions in /var/task exactly...
-# USER root
-# RUN chown -R slicer:497 .
-# USER sbx_user1051
+
+CMD ["bash"]

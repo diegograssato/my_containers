@@ -1,0 +1,22 @@
+FROM alpine:3.4
+
+MAINTAINER Diego Perera Grassato <diego.grassato@gmail.com>
+
+# aws-cli
+RUN  apk --update --upgrade add ruby ruby-bundler ruby-rdoc ca-certificates && \
+	echo 'gem: --no-document' >> ~/.gemrc && \
+	cp ~/.gemrc /etc/gemrc && \
+ 	chmod uog+r /etc/gemrc
+
+RUN  gem install fakes3
+
+RUN find / -type f -iname \*.apk-new -delete && \
+	rm -rf /var/cache/apk/* && \
+	rm -rf /usr/lib/lib/ruby/gems/*/cache/* && \
+	rm -rf ~/.gem
+
+# Copy configs and scripts
+COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
+RUN chmod 777 /bin/docker-entrypoint.sh
+ENTRYPOINT ["/bin/docker-entrypoint.sh"]
+CMD ["/usr/bin/fakes3"]
