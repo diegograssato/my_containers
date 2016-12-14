@@ -3,6 +3,8 @@ Here is an unofficial Dockerfile for [fake-s3][fake-s3].
 
 Amazon Simple Storage Service (Amazon S3)
 
+Use [gem fake-s3](https://github.com/jubos/fake-s3) in a Docker container.
+
 [![](https://images.microbadger.com/badges/version/diegograssato/fake-s3.svg)](https://microbadger.com/images/diegograssato/fake-s3 "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/image/diegograssato/fake-s3.svg)](https://microbadger.com/images/diegograssato/fake-s3 "Get your own image badge on microbadger.com")
 
 ## Usage

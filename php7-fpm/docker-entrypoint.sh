@@ -189,8 +189,8 @@ if [ ! "${PHP_FPM_PRODUCTION}" == "true" ] ; then
     # PHP-FPM development settings
     ## ${PHP_BASE}/fpm/php.ini
     ${SED} -i '/memory_limit = /c memory_limit = 1024M' ${PHP_BASE}/fpm/php.ini
-    ${SED} -i '/max_execution_time = /c max_execution_time = 300' ${PHP_BASE}/fpm/php.ini
-    ${SED} -i '/upload_max_filesize = /c upload_max_filesize = 500M' ${PHP_BASE}/fpm/php.ini
+    ${SED} -i '/max_execution_time = /c max_execution_time = 800' ${PHP_BASE}/fpm/php.ini
+    ${SED} -i '/upload_max_filesize = /c upload_max_filesize = 1024M' ${PHP_BASE}/fpm/php.ini
     ${SED} -i '/post_max_size = /c post_max_size = 800M' ${PHP_BASE}/fpm/php.ini
     ${SED} -i '/error_log = /c error_log = \/dev\/stdout' ${PHP_BASE}/fpm/php.ini
     ${SED} -i '/;always_populate_raw_post_data/c always_populate_raw_post_data = -1' ${PHP_BASE}/fpm/php.ini
@@ -198,9 +198,11 @@ if [ ! "${PHP_FPM_PRODUCTION}" == "true" ] ; then
     ## ${PHP_BASE}/fpm/php-fpm.conf
     #${SED} -i '/;daemonize = /c daemonize = no' ${PHP_BASE}/fpm/php-fpm.conf
     ${SED} -i '/error_log = /c error_log = \/dev\/stdout' ${PHP_BASE}/fpm/php-fpm.conf
+    ${SED} -i '/display_errors = /c error_log = On' ${PHP_BASE}/fpm/php.ini
+    ${SED} -i '/display_startup_errors = /c display_startup_errors = On' ${PHP_BASE}/fpm/php.ini
     # PHP CLI settings
     ${SED} -i '/memory_limit = /c memory_limit = -1' ${PHP_BASE}/cli/php.ini
-    ${SED} -i '/max_execution_time = /c max_execution_time = 600' ${PHP_BASE}/cli/php.ini
+    ${SED} -i '/max_execution_time = /c max_execution_time = 800' ${PHP_BASE}/cli/php.ini
     ${SED} -i '/error_log = php_errors.log/c error_log = \/dev\/stdout' ${PHP_BASE}/cli/php.ini
     ${SED} -i '/;sendmail_path/c sendmail_path = /bin/true' ${PHP_BASE}/cli/php.ini
     ${SED} -i 's/\;date\.timezone\ \=/date\.timezone\ \=\ UTC/g' ${PHP_BASE}/cli/php.ini
