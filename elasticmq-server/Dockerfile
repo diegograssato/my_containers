@@ -16,9 +16,9 @@ RUN mkdir -p /usr/local/src/elasticmq-server && cd  /usr/local/src/elasticmq-ser
 # Copy configs and scripts
 COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
 RUN chmod 777 /bin/docker-entrypoint.sh
+RUN mkdir -p /etc/elasticmq
 COPY elasticmq.conf /etc/elasticmq/elasticmq.conf
 
-VOLUME ["/etc/elasticmq"]
 # Default port for SNS Local
 EXPOSE 9324
 

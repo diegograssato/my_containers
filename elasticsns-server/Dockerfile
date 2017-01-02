@@ -17,10 +17,10 @@ RUN curl -LsS https://github.com/s12v/sns/releases/download/$VERSION/sns-$VERSIO
 	apk --purge -v del py-pip && \
 	rm /var/cache/apk/*
 COPY docker-entrypoint.sh /docker-entrypoint.sh
+RUN mkdir -p /etc/sns
 COPY db.json /etc/sns/db.json
 RUN chmod 777 /docker-entrypoint.sh
-
-VOLUME [/etc/sns]
+ 
 # Default port for SNS Local
 EXPOSE 9911
 
