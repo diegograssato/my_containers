@@ -1,0 +1,56 @@
+version: '2'
+networks:
+  development:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 10.10.1.0/24
+
+services:
+    elasticmq-server:
+        image: diegograssato/elasticmq-server
+        container_name: sqs
+        ports:
+            - 9324:9324
+        environment:
+            AWS_DEFAULT_REGION: 'us-east-1'
+            AWS_ACCESS_KEY_ID: 'foo'
+            AWS_SECRET_ACCESS_KEY: 'bar'
+        networks:
+          development:
+              ipv4_address: 10.10.1.60
+
+    elasticsns-server:
+        image: diegograssato/elasticsns-server
+        container_name: sns
+        ports:
+            - 9911:9911
+        environment:
+            AWS_DEFAULT_REGION: 'us-east-1'
+            AWS_ACCESS_KEY_ID: 'foo'
+            AWS_SECRET_ACCESS_KEY: 'bar'
+        networks:
+          development:
+              ipv4_address: 10.10.1.50
+
+    rabbit-server:
+        image: rabbitmq:3
+        container_name: rabbitmq
+        environment:
+            RABBITMQ_ERLANG_COOKIE: 'Dsq211321asdasasda242341213'
+            RABBITMQ_NODENAME: 'rabbit@my-rabbit'
+        networks:
+          development:
+              ipv4_address: 10.10.1.51
+        restart: always
+    rabbit-management:
+        image: rabbitmq:3-management
+        container_name: management
+        ports:
+            - 9922:15672
+        environment:
+            RABBITMQ_DEFAULT_USER: 'admin'
+            RABBITMQ_DEFAULT_PASS: 'admin'
+        networks:
+          development:
+              ipv4_address: 10.10.1.52

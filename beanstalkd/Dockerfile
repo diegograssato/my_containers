@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:3.4
 MAINTAINER Diego Pereira Grassato <diego.grassato@gmail.com>
 
 ENV version="1.10"

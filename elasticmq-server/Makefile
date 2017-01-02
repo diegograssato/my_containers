@@ -11,7 +11,9 @@ debug: clean \
 	test
 test:
 	docker build -t $(IMAGE_DEV) --rm .
-	docker run --name $(CONATAINER_DEV) --rm -p 9325:9324 \
+	docker run --name $(CONATAINER_DEV) --rm -p 9324:9324 \
+                        --network=web_development \
+						--ip=10.10.1.60 \
 						-e PORT='9324' \
 						-t $(IMAGE_DEV)
 

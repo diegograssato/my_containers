@@ -1,0 +1,15 @@
+{
+    "version": 1,
+    "timestamp": 1465414804110,
+    "subscriptions": [{
+        "arn": "e9126059-9eab-4b37-8194-e0d64dfb2045",
+        "topicArn": "arn:aws:sns:us-east-1:1465414804035:test1",
+        "endpoint": "aws-sqs://symfony?amazonSQSEndpoint=http://sqs:9324&accessKey=foo&secretKey=bar",
+        "owner": "",
+        "protocol": "sqs"
+    }],
+    "topics": [{
+        "arn": "arn:aws:sns:us-east-1:1465414804035:test1",
+        "name": "test1"
+    }]
+}

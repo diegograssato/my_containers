@@ -12,6 +12,8 @@ debug: clean \
 test:
 	docker build -t $(IMAGE_DEV) --rm .
 	docker run --name $(CONATAINER_DEV) --rm -p 4569:4569 \
+                        --network=web_development \
+                        --ip=10.10.1.70 \
                         --dns=8.8.8.8 \
 						-t $(IMAGE_DEV)
 

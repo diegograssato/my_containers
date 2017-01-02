@@ -1,9 +1,9 @@
 {
-  "version": 1,
-  "timestamp": 1480357770102,
-  "subscriptions": [],
-  "topics": [{
-    "arn": "arn:aws:sns:us-east-1:1480357770073:demo",
-    "name": "demo"
-  }]
+    "version": 1,
+    "timestamp": 1465414804110,
+    "subscriptions": [],
+    "topics": [{
+        "arn": "arn:aws:sns:us-east-1:1465414804035:test1",
+        "name": "test1"
+    }]
 }

@@ -1,7 +1,7 @@
 
-IMAGE_DEV="diegograssato/beanstalkd"
-IMAGE_PROD="diegograssato/beanstalkd"
-CONATAINER_DEV="beanstalkd"
+IMAGE_DEV="diegograssato/beanstalkd-local"
+IMAGE_PROD="diegograssato/beanstalkd-server"
+CONATAINER_DEV="beanstalkd-local"
 
 .PHONY: debug \
 	release \
@@ -9,27 +9,12 @@ CONATAINER_DEV="beanstalkd"
 
 debug: clean \
 	test
-
-debug2: clean \
-	test_upstream
-
 test:
 	docker build -t $(IMAGE_DEV) --rm .
-	docker run --name $(CONATAINER_DEV) --rm -p 80:80 -p 443:443 \
+	docker run --name $(CONATAINER_DEV) --rm -p 11300:11300 \
+                        --network=web_development \
+						--ip=10.10.1.80 \
 						-t $(IMAGE_DEV)
-
-test_upstream:
-	docker build -t $(IMAGE_DEV) --rm .
-	docker run --name $(CONATAINER_DEV) --rm -p 80:80 -p 443:443 \
-							--link="php7-fpm" \
-							-e DOCUMENT_ROOT="/var/www/default" \
-		          -e APP_SERVER_NAME="symfony.dev" \
-		          -e APP_INDEX_FILE="index.php" \
-		          -e PHP_FPM_SOCKET="php7-fpm:5000" \
-		          -e NGINX_WORKER_PROCESSES=4 \
-		          -e NGINX_CONNECTIONS=20480 \
-							-t $(IMAGE_DEV)
-
 
 release:
 	docker build -t $(IMAGE_PROD):$(shell cat VERSION) .
