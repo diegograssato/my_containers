@@ -1,0 +1,84 @@
+####################################
+# DTuX PHP 7.0 /  image         #
+####################################
+FROM debian:jessie
+
+MAINTAINER Diego Pereira Grassato <diego.grassato@gmail.com>
+
+# Prevent services autoload (http://jpetazzo.github.io/2013/10/06/policy-rc-d-do-not-start-services-automatically/)
+RUN echo '#!/bin/sh\nexit 101' > /usr/sbin/policy-rc.d && chmod +x /usr/sbin/policy-rc.d && \
+    echo "deb http://httpredir.debian.org/debian jessie main contrib non-free"  > /etc/apt/sources.list && \
+    echo "deb http://httpredir.debian.org/debian jessie-updates main contrib non-free"  >> /etc/apt/sources.list && \
+    echo "deb http://security.debian.org/ jessie/updates main contrib non-free"  >> /etc/apt/sources.list && \
+    DEBIAN_FRONTEND=noninteractive apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y curl wget locales apt-transport-https && \
+    echo "deb http://packages.dotdeb.org jessie all" >> /etc/apt/sources.list && \
+    curl -sS https://www.dotdeb.org/dotdeb.gpg | apt-key add -
+
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get update -qq && \
+    DEBIAN_FRONTEND=noninteractive  apt-get -y --no-install-recommends install \
+    php7.0 php7.0-cli php7.0-curl php7.0-xsl php7.0-xml php7.0-xmlrpc php7.0-readline php7.0-json \
+    php7.0-imagick php7.0-imap php7.0-intl php7.0-msgpack php7.0-pspell php7.0-recode php7.0-mbstring \
+    php7.0-bz2 php7.0-zip php7.0-enchant php7.0-gd php7.0-geoip php7.0-gmp php7.0-igbinary php7.0-mcrypt \
+    php7.0-redis php7.0-memcached php7.0-opcache php7.0-xdebug php7.0-dev php7.0-fpm php7.0-bcmath \
+    php7.0-pgsql php7.0-sqlite3 php7.0-mongodb php7.0-mysql php7.0-ldap php-pear mcrypt libsasl2-dev && \
+    localedef -i en_US -c -f UTF-8 -A /usr/share/locale/locale.alias en_US.UTF-8
+
+#COPY msodbcsql-13.0.0.0.tar.gz /tmp
+#RUN apt-get install unixodbc-dev unixodbc odbcinst libgss3 g++ build-essential make -y && \
+#    cd /tmp &&  tar -zxf msodbcsql-13.0.0.0.tar.gz  && \
+#    cd /tmp && cd msodbcsql-13.0.0.0  && bash ./install.sh install --force --accept-license  && \
+#    cd /tmp && rm -rf msodbcsql-13.0.0.0 && rm msodbcsql-13.0.0.0.tar.gz && rm -rf pear
+
+#RUN pecl channel-update pecl.php.net && pecl install sqlsrv-4.0.6 pdo_sqlsrv-4.0.6
+COPY zend /usr/local/zend
+RUN mv /usr/local/zend/lib/libZendDevBarLib.so /usr/lib/ && \
+    mkdir -p /tmp/datacache && chmod 777 /tmp/datacache -R && \
+    mkdir -p /etc/conf.d && \
+    mkdir -p /tmp/pagecache  && chmod 777 /tmp/pagecache -R
+RUN find /usr/local/zend -name *.so -exec cp -v {} /usr/lib/php/20151012/ \;
+
+COPY config/php/xdebug.ini /etc/php/7.0/mods-available/xdebug.ini
+COPY config/php/xhprof.ini /etc/php/7.0/mods-available/xhprof.ini
+COPY config/php/opcache.ini /etc/php/7.0/mods-available/opcache.ini
+COPY config/php/sqlsrv.ini /etc/php/7.0/mods-available/sqlsrv.ini
+COPY config/php/www.conf /etc/php/7.0/fpm/pool.d/www.conf
+
+#Zend modules
+COPY config/php7.0/codetracing.ini /etc/php/7.0/mods-available/codetracing.ini
+COPY config/php7.0/datacache.ini /etc/php/7.0/mods-available/datacache.ini
+COPY config/php7.0/debugger.ini /etc/php/7.0/mods-available/debugger.ini
+COPY config/php7.0/pagecache.ini /etc/php/7.0/mods-available/pagecache.ini
+COPY config/php7.0/jobqueue.ini /etc/php/7.0/mods-available/jobqueue.ini
+COPY config/php7.0/ZendGlobalDirectives.ini /etc/conf.d/ZendGlobalDirectives.ini
+COPY config/php7.0/functions.txt /etc/functions.txt
+RUN phpenmod codetracing pagecache datacache jobqueue
+
+# Ensure UTF-8
+ENV LC_ALL          C.UTF-8
+ENV LANG            en_US.UTF-8
+ENV LANGUAGE        en_US.UTF-8
+ENV ZEND_MODULES_PATH /usr/local/zend
+ENV PHP_BASE "/etc/php/7.0"
+
+RUN DEBIAN_FRONTEND=noninteractive apt-get remove vim wget curl gcc-4.8-base libapache2-mod-php7.0 unixodbc-dev g++ build-essential make --purge -y && \
+    apt-get purge -y && \
+    apt-get clean -y && \
+    apt-get autoclean -y && \
+    apt-get autoremove -y && \
+    rm -rf /usr/share/locale/* && \
+    rm -rf /var/cache/* && \
+    rm -rf /var/lib/apt/lists/* && \
+    rm -rf /usr/share/doc/
+
+WORKDIR /var/www/html
+
+# Copy configs and scripts
+COPY docker-entrypoint.sh /bin/docker-entrypoint.sh
+RUN mkdir -p /run/php && mkdir -p /var/www/html && chmod 777 /run/php && chmod 777 /bin/docker-entrypoint.sh
+
+# Starter script
+ENTRYPOINT ["/bin/docker-entrypoint.sh"]
+# Starter script
+CMD ["php", "-a"]

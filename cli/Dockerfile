@@ -1,7 +1,7 @@
 ####################################
-# DTuX PHP 7.0 /  image         #
+# CLI                             #
 ####################################
-FROM diegograssato/php7
+FROM diegograssato/php7:7.1
 
 MAINTAINER Diego Pereira Grassato <diego.grassato@gmail.com>
 
@@ -10,7 +10,7 @@ ENV SUPPORTED_LANGUAGES="en_US|pt_BR"
 RUN DEBIAN_FRONTEND=noninteractive apt-get update -qq && \
     DEBIAN_FRONTEND=noninteractive apt-get -y --no-install-recommends install \
     openssl ssl-cert ca-certificates sudo mysql-client unzip default-jre \
-    vim curl wget locales git openssh-client php7.0-cli php7.0-dev build-essential make && \
+    vim curl wget locales git openssh-client php7.1-cli php7.1-dev build-essential make && \
     cat /usr/share/i18n/SUPPORTED | grep -E "$SUPPORTED_LANGUAGES" > /etc/locale.gen && \
     locale-gen && \
     # Create a non-root user with access to sudo and the default group set to 'users' (gid = 100)
@@ -32,7 +32,8 @@ RUN \
     curl -LsS https://getcomposer.org/composer.phar -o /usr/local/bin/composer && \
     chmod 777 /usr/local/bin/composer
 
-RUN DEBIAN_FRONTEND=noninteractive apt-get upgrade -y && \
+RUN DEBIAN_FRONTEND=noninteractive apt-get remove php7.1-fpm php-uploadprogress --purge -y && \
+    apt-get upgrade -y && \
     apt-get purge -y && \
     apt-get clean -y && \
     apt-get autoclean -y && \
@@ -59,7 +60,7 @@ USER docker
 # Fix permissions after COPY
 RUN sudo chown -R docker:users /home/docker
 
-WORKDIR /var/www
+WORKDIR /var/www/html
 
 ENTRYPOINT ["/bin/docker-entrypoint.sh"]
 # Starter script

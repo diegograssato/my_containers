@@ -19,7 +19,7 @@ test:
 				-e CLI_DRUPAL_CLI="false" \
 				-e CLI_CS="true" \
 				-e CLI_SONAR="false" \
-				-v $(HOME)/open_solutions/web:/var/www \
+				-v $(HOME)/open_solutions/web:/var/www/html \
 				-t $(IMAGE_DEV)
 
 release:
