@@ -15,7 +15,7 @@ RUN yum -y install httpd24 vim zip unzip wget gcc-c++ make
 # Installing PHP
 #RUN apt-get install -y php7.0 php7.0-cli php7.0-common php7.0-dom php7.0-mysql php7.0-xdebug libapache2-mod-php7.0
 RUN yum -y install php70 php70-pdo php70-mysqlnd php70-cli php70-mbstring \
-    php70-xml php70-intl php70-opcache php70-bcmath php70-apcu php70-imap \
+    php70-xml php70-intl php70-opcache php70-bcmath php70-apcu php70-imap php70-sqlite \
     php70-zip php70-ldap php70-mcrypt php70-gd apcu70-panel php70-devel php7-pear gcc
 
 RUN alternatives --set php /usr/bin/php-7.0
