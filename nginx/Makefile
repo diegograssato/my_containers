@@ -29,7 +29,7 @@ test_upstream:
 							--network="web_development" \
 							-v $(HOME)/open_solutions/web:/var/www \
 							-e NGINX_DOCUMENT_ROOT="/var/www/" \
-							-e VIRTUAL_HOST="{'name':'zf3','domains':['zf3'],'docroot':'zf3/public', 'forcessl': 'false'}, \
+							-e VIRTUAL_HOST_CONFIG="{'name':'zf3','domains':['zf3'],'docroot':'zf3/public', 'forcessl': 'false'}, \
 															 {'name':'doito','domains':['dtux.drupal.com'],'docroot':'drupal-8', 'forcessl': 'true'}, \
 															 {'name':'api','domains':['api','api.dev'],'docroot':'apigility/public', 'forcessl': 'false'}, \
 														 	 {'name':'zf3-intermediario','domains':['zf3-intermediario'],'docroot':'zf3-intermediario/public', 'forcessl': 'true'}, \

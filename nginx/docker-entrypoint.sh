@@ -69,8 +69,8 @@ function site_configuration() {
 
     fi
 
-    VIRTUAL_HOST="{'vhost':[${VIRTUAL_HOST}]}"
-    echo ${VIRTUAL_HOST} > /tmp/vhost.json
+    VIRTUAL_HOST_CONFIG="{'vhost':[${VIRTUAL_HOST_CONFIG}]}"
+    echo ${VIRTUAL_HOST_CONFIG} > /tmp/vhost.json
     sed -i "s|'|\"|g"  /tmp/vhost.json
     SITE_SIZE=$(jq ".vhost[] .name" /tmp/vhost.json |wc -l)
 
