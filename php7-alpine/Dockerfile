@@ -31,7 +31,9 @@ RUN apk add --update freetds-dev \
     cyrus-sasl-dev \
     git \
     gmp \
-    gmp-dev
+    gmp-dev \
+    libpq \
+    postgresql-dev
 
 RUN docker-php-source extract \
     && apk add --no-cache --virtual .phpize-deps-configure $PHPIZE_DEPS \
@@ -42,6 +44,7 @@ RUN docker-php-source extract \
 RUN docker-php-ext-configure gd --with-jpeg-dir=usr/ --with-freetype-dir=usr/ --with-webp-dir=usr/
 RUN docker-php-ext-install -j"$(getconf _NPROCESSORS_ONLN)" gd
 RUN docker-php-ext-configure pdo_dblib --with-libdir=lib/
+RUN docker-php-ext-configure pgsql -with-pgsql=/usr/local/pgsql
 
 RUN docker-php-ext-install \
     exif \
@@ -49,6 +52,8 @@ RUN docker-php-ext-install \
     intl \
     pdo_dblib \
     pdo_mysql \
+    pgsql \
+    pdo_pgsql \
     mysqli \
     opcache \
     pcntl \
@@ -89,7 +94,7 @@ RUN apk del freetds-dev \
     libtool \
     zlib-dev \
     cyrus-sasl-dev \
-    git \ 
+    git \
     && rm -rf /var/cache/apk/*
 
 # Expose ports
