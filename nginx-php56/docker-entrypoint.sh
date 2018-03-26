@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 UPSTREAM_CONF="/etc/nginx/conf.d/default-upstream.conf"
 NGINX_CONF="/etc/nginx/nginx.conf"
@@ -15,7 +15,7 @@ SED=$(which sed)
 CP=$(which cp)
 
 echo -e "\n Cleaning configuration files"
-${CP} -va ${NGINX_CONF_AVAILABLE} ${NGINX_CONF}
+${CP} -a ${NGINX_CONF_AVAILABLE} ${NGINX_CONF}
 
 
 if [[ -z ${NGINX_WORKER_PROCESSES} ]]; then
@@ -93,7 +93,6 @@ function site_configuration() {
         DOMAINS_SIZE=$(jq -c ".vhost[$x] .domains" /tmp/vhost.json  | jq length)
         APP_SSL=$(jq -r ".vhost[$x] .forcessl" /tmp/vhost.json)
         APP_SOCKET=$(jq -r ".vhost[$x] .socket" /tmp/vhost.json)
-        APP_INDEX=$(jq -r ".vhost[$x] .index" /tmp/vhost.json)
         for ((y=0; y < ${DOMAINS_SIZE}; y++)) ; do
 
             APP_DOMAINS=$(jq -r ".vhost[$x] .domains[$y]" /tmp/vhost.json)
@@ -122,12 +121,6 @@ function site_configuration() {
             ${SED} -i "s|default|${APP_SOCKET}|" "${SITES_ENABLED}/${SITE}.conf"
         fi
 
-        if [[ -n ${APP_INDEX} ]] && [[ ${APP_INDEX} != "null" ]]; then
-
-            echo "Configuring index ${APP_INDEX}"
-            APP_INDEX_FILE=${APP_INDEX}
-        fi
-
         ${SED} -i "s|<APP_SERVER_NAME>|${SITE}|" "${SITES_ENABLED}/${SITE}.conf"
         ${SED} -i "s|<APP_DOMAINS>|${SITE_DOMAINS}|" "${SITES_ENABLED}/${SITE}.conf"
         ${SED} -i "s|<DOCUMENT_ROOT>|${DOCUMENT_ROOT}|" "${SITES_ENABLED}/${SITE}.conf"
@@ -141,7 +134,7 @@ function site_configuration() {
     done
 }
 
-[ -f ${UPSTREAM_CONF} ] && rm -v ${UPSTREAM_CONF}
+[ -f ${UPSTREAM} ] && rm ${UPSTREAM}
 if [ ! -z ${PHP_FPM_SOCKET} ]; then
 
     echo -e "\nConfiguring default upstram: ${PHP_FPM_SOCKET} >> ${UPSTREAM_CONF}"
@@ -158,7 +151,7 @@ if [[ ! -z ${NGINX_SITES_CUSTOM} ]]; then
         if [ -f ${SITES_CUSTOM} ]; then
 
             echo -e "\n==>> Custom APP configuration: ${NGINX_SITES_CUSTOM} "
-            cp -va ${SITES_CUSTOM} ${SITES_ENABLED}
+            cp -a ${SITES_CUSTOM} ${SITES_ENABLED}
 
         else
 
@@ -182,17 +175,10 @@ if [ ! -f /etc/nginx/ssl/nginx.key ]; then
 
     echo -e "\n Generating self signed cert"
     openssl req -x509 -newkey rsa:4086 \
-        -subj "/C=KG/ST=NA/O=Development/OU=DTUX/CN=dtux.org/emailAddress=diego.grassato@gmail.com" \
+        -subj "/C=XX/ST=XXXX/L=XXXX/O=XXXX/mCN=localhost" \
         -keyout "/etc/nginx/ssl/nginx.key" \
         -out "/etc/nginx/ssl/nginx.crt" \
         -days 3650 -nodes -sha256
-
- openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
-    -extensions vpn_request_tool -keyout "${_VPN_REQUEST_TOOL_CA_KEY_FILE}" -out "${_VPN_REQUEST_TOOL_CA_CRT_FILE}" \
-    -subj "${_VPN_REQUEST_TOOL_CA_SUBJECT}" \
-    -config "${_VPN_REQUEST_TOOL_OPENSSL_CNF_DIR}"
-
-    openssl dhparam -out "/etc/nginx/ssl/dhparam.pem" 2048
 
 fi
 

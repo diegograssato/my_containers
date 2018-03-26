@@ -1,0 +1,46 @@
+# mkdir -p srv/salt/{pillar,reactor,state}
+version: '2'
+networks:
+  salt:
+    driver: bridge
+    ipam:
+      config:
+      - subnet: 10.20.1.0/24
+
+services:
+  master:
+    image: diegograssato/salt
+    environment:
+      SALT_USE: master
+      SALT_NAME: master
+      SALT_GRAINS: "{'test': 'test'}"
+      LOG_LEVEL: info
+    hostname: master    
+    expose:
+      - "4505"
+      - "4506"
+      - "8080"
+      - "8081"
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    volumes:
+      - /home/diego/Desenvolvimento/wph-docker/salt/srv:/srv/:rw
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      salt:
+        ipv4_address: 10.20.1.10
+
+  minion:
+    image: diegograssato/salt
+    links:
+      - master
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock      
+    environment:
+      SALT_USE: minion
+      SALT_NAME: minion1
+      SALT_GRAINS: "{'test': 'test'}" 
+    networks:
+      salt:
+#docker-compose -f docker-compose.yml up --scale minion=3 -d

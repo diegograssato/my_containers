@@ -34,28 +34,13 @@ copy_dot_git ()
 copy_dot_composer ()
 {
   local path="$1/.composer"
-  
   if [ -d $path ]; then
 
-    sudo find ${path} -maxdepth 1 -type f | xargs -I {} echo "Copying COMPOSER settings in {} from host..."
+    sudo find /.home-linux/.composer/ -maxdepth 1 -type f | xargs -I {} echo "Copying COMPOSER settings in {} from host..."
     mkdir -p ${HOME}/.composer
     sudo find $path -maxdepth 1 -type f | xargs -I {} cp {} ${HOME}/.composer/
     sudo find $path -maxdepth 1 -type f | xargs -I {} sudo chown $(id -u):$(id -g) {} ${HOME}/.composer/
     sudo chown $(id -u):$(id -g) ${HOME}/.composer -R
-
-  fi
-
-  local path="$1/.config/composer"
-  if [ -d $path ]; then
-
-    sudo find ${path} -maxdepth 1 -type f | xargs -I {} echo "Copying COMPOSER settings in {} from host..."
-    mkdir -p ${HOME}/.composer
-    mkdir -p ${HOME}/.config/composer
-    sudo find $path -maxdepth 1 -type f | xargs -I {} cp {} ${HOME}/.composer/
-    sudo find $path -maxdepth 1 -type f | xargs -I {} cp {} ${HOME}/.config/composer
-    sudo find $path -maxdepth 1 -type f | xargs -I {} sudo chown $(id -u):$(id -g) {} ${HOME}/.composer/
-    sudo chown $(id -u):$(id -g) ${HOME}/.composer -R
-    sudo chown $(id -u):$(id -g) ${HOME}/.config/composer
 
   fi
 }

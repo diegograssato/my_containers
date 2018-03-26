@@ -16,10 +16,8 @@ debug2: clean \
 test:
 	docker build -t $(IMAGE_DEV) --rm .
 	docker run --name $(CONATAINER_DEV) --rm -p 8012:80 -p 445:443 \
-	--link="php7-fpm" \
-	--network="config_default" \
-		-v $(HOME)/open_solutions/web:/var/www \
-						-e NGINX_SITES_CUSTOM="/etc/nginx/sites-available/drupal7.conf" \
+	 -v $(HOME)/open_solutions/web:/var/www \
+						-e NGINX_SITES_CUSTOM="/etc/nginx/sites-available/custom.conf" \
 						-t $(IMAGE_DEV)
 
 test_upstream:

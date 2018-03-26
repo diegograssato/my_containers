@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:3.5
 
 MAINTAINER Diego Perera Grassato <diego.grassato@gmail.com>
 

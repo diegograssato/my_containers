@@ -182,15 +182,10 @@ if [ ! -f /etc/nginx/ssl/nginx.key ]; then
 
     echo -e "\n Generating self signed cert"
     openssl req -x509 -newkey rsa:4086 \
-        -subj "/C=KG/ST=NA/O=Development/OU=DTUX/CN=dtux.org/emailAddress=diego.grassato@gmail.com" \
+        -subj "/C=XX/ST=XXXX/L=XXXX/O=XXXX/mCN=localhost" \
         -keyout "/etc/nginx/ssl/nginx.key" \
         -out "/etc/nginx/ssl/nginx.crt" \
         -days 3650 -nodes -sha256
-
- openssl req -new -newkey rsa:4096 -days 3650 -nodes -x509 \
-    -extensions vpn_request_tool -keyout "${_VPN_REQUEST_TOOL_CA_KEY_FILE}" -out "${_VPN_REQUEST_TOOL_CA_CRT_FILE}" \
-    -subj "${_VPN_REQUEST_TOOL_CA_SUBJECT}" \
-    -config "${_VPN_REQUEST_TOOL_OPENSSL_CNF_DIR}"
 
     openssl dhparam -out "/etc/nginx/ssl/dhparam.pem" 2048
 
